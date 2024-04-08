@@ -12,7 +12,7 @@ def extract_movie_id(url):
     else:
         return None
         
-#scraps the introduction part of movies
+#scrapes the introduction part of movies
 def scrape_movie_intro(movie_url):
     if not movie_url.startswith('https://www.boxofficemojo.com/'):
         movie_url = 'https://www.boxofficemojo.com/' + movie_url
