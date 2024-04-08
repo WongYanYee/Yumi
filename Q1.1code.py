@@ -1,10 +1,10 @@
-#import modules for web scraping. 
+#imports necessary modules 
 import requests
 from bs4 import BeautifulSoup
 import re
 import pandas as pd
 
-#search for a specfic pattern within a movie url.
+#extracts a movie identifier from a given url
 def extract_movie_id(url):
     match = re.search(r'gr(\d+)/', url)
     if match:
@@ -12,14 +12,15 @@ def extract_movie_id(url):
         return "gr" + group_id
     else:
         return None
-#scrap data from website BoxOfficeMojo.
+        
+#scrapes the 2023 top movie's box office data from BoxOfficeMojo and saves it in a text file.
 if __name__ == "__main__":
     
     url = f"https://www.boxofficemojo.com/year/world/2023/"
     response = requests.get(url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
-        tables = soup.find_all('table', class_='mojo-body-table') #find all tables that have the class attribute to 'mojo body table'
+        tables = soup.find_all('table', class_='mojo-body-table') #finds all tables that have the class attribute to 'mojo body table'
         if tables:
             with open("TopMoviesBoxOffice.txt", "w", encoding="utf-8") as file:
                 for table in tables:
@@ -33,6 +34,5 @@ if __name__ == "__main__":
                             movie_id = extract_movie_id(movie_url)
                             worldwide_boxoffice = columns[2].text.strip().replace(",", "").replace("$", "")
                             domestic_boxoffice = columns[3].text.strip().replace(",", "").replace("$", "")
-                           
-                            file.write(f"{rank},{movie_name},{movie_id},{worldwide_boxoffice},{domestic_boxoffice}\n") #a formatted string to the file, extract value of 5 items
-        print("TopMoviesBoxOffice.txt") #print 'TopMoviesBoxOffice.txt', this file is successfully created.
+                            file.write(f"{rank},{movie_name},{movie_id},{worldwide_boxoffice},{domestic_boxoffice}\n") 
+        print("TopMoviesBoxOffice.txt") #prints 'TopMoviesBoxOffice.txt', this file is successfully created.
