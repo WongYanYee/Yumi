@@ -35,4 +35,4 @@ if __name__ == "__main__":
                             domestic_boxoffice = columns[3].text.strip().replace(",", "").replace("$", "")
                            
                             file.write(f"{rank},{movie_name},{movie_id},{worldwide_boxoffice},{domestic_boxoffice}\n") #a formatted string to the file, extract value of 5 items
-        print("TopMoviesBoxOffice.txt")
+        print("TopMoviesBoxOffice.txt") #print 'TopMoviesBoxOffice.txt', this file is successfully created.
