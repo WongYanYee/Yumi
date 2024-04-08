@@ -1,8 +1,10 @@
+#imports necessary modules
 import os
 import requests
 from bs4 import BeautifulSoup
 import re
 
+#extracts a movie's unique identifier from its url using general expression.
 def extract_movie_id(url):
     match = re.search(r'gr(\d+)/', url)
     if match:
@@ -11,6 +13,7 @@ def extract_movie_id(url):
     else:
         return None
 
+#downloads and saves a movie's poster image from its url, and each movie identifier is its file name
 def scrape_movie_image(movie_url, movie_id):
     if not movie_url.startswith('https://www.boxofficemojo.com/'):
         movie_url = 'https://www.boxofficemojo.com/' + movie_url
@@ -32,10 +35,10 @@ def scrape_movie_image(movie_url, movie_id):
                 return
     print(f"{movie_url}")
 
+#scrapes and saves top50 movie posters 
 if __name__ == "__main__":
     if not os.path.exists("Images"):
         os.makedirs("Images")
-    
     url = f"https://www.boxofficemojo.com/year/world/2023/"
     response = requests.get(url)
     if response.status_code == 200:
@@ -55,5 +58,5 @@ if __name__ == "__main__":
                         movie_id = extract_movie_id(movie_url)
                         scrape_movie_image(movie_url, movie_id)
                       else:
-            print(txt)
+            print() 
  
